@@ -1,0 +1,21 @@
+package com.rolez.backend.cards;
+
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Table (name ="cards")
+
+public class Cards {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    // Example, Charizard, MegaEx, 676767.41, *image*, mint
+    private String name;
+    private String set;
+    private Double price;
+    private String imageUrl;
+    private String condition; //perfect near perfect, rugged
+}
