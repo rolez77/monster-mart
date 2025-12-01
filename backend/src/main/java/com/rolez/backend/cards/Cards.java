@@ -1,6 +1,7 @@
 package com.rolez.backend.cards;
 
 
+import com.rolez.backend.users.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,4 +19,9 @@ public class Cards {
     private Double price;
     private String imageUrl;
     private String condition; //perfect near perfect, rugged
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User seller;
+
 }
