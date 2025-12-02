@@ -1,0 +1,35 @@
+package com.rolez.backend.cards;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/cards")
+public class CardController {
+
+
+    private final CardsService cardsService;
+
+    @Autowired
+    public CardController(CardsService cardsService) {
+        this.cardsService = cardsService;
+    }
+
+    @GetMapping
+    public List<Card> getCards(@RequestParam(required = false) String cardName) {
+        if(cardName != null) {
+            return cardsService.getCardByName(cardName);
+        }else{
+            return cardsService.getCards();
+        }
+    }
+
+    @PostMapping
+    public Card addCard(@RequestBody Card card) {
+        return cardsService.addCard(card);
+    }
+
+}
