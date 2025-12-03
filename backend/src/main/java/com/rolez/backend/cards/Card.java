@@ -1,6 +1,7 @@
 package com.rolez.backend.cards;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rolez.backend.users.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Card {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User seller;
+    @JsonIgnore
+    private User user;
 
 }

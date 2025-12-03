@@ -32,4 +32,14 @@ public class CardController {
         return cardsService.addCard(card);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteCardById(@RequestParam Long id) {
+        if(cardsService.existsById(id)){
+            cardsService.deleteCard(id);
+        }else{
+            System.console().printf("Card with id: %s does not exist", id);
+        }
+
+    }
+
 }

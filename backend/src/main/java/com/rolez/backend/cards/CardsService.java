@@ -29,4 +29,11 @@ public class CardsService
                 .collect(Collectors.toList());
     }
 
+    public boolean existsById(Long cardId) {
+        return cardRepository.existsById(cardId);
+    }
+
+    public void deleteCard(Long id) {
+        cardRepository.deleteById(id);
+    }
 }
