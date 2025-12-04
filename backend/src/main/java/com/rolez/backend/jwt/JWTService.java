@@ -11,7 +11,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JWTService {
 
     private static final String SECRET_KEY = "c0b5803f74551b0b7c079f25f7f9f5edc1ce989d12c3733da189fe02743a9d57";
