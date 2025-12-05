@@ -1,8 +1,10 @@
 package com.rolez.backend.users;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDTOMapper implements Function<User, UserDTO> {
@@ -14,7 +16,8 @@ public class UserDTOMapper implements Function<User, UserDTO> {
                 user.getEmail(),
                 user.getName(),
                 user.getUsername(),
-                user.getProfilePictureUrl()
+                user.getProfilePictureUrl(),
+                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
         );
     }
 }

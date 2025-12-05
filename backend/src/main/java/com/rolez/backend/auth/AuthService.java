@@ -1,7 +1,9 @@
 package com.rolez.backend.auth;
 
 
+import com.rolez.backend.jwt.JWTService;
 import com.rolez.backend.users.User;
+import com.rolez.backend.users.UserDTO;
 import com.rolez.backend.users.UserDTOMapper;
 import com.rolez.backend.users.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,30 +14,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
-
-    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper userDTOMapper;
+    private final JWTService jwtService;
 
-//    public AuthService(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
-//        this.userRepository = userRepository;
-//        this.authenticationManager = authenticationManager;
-//        this.passwordEncoder = passwordEncoder;
-//    }
+    public AuthService(AuthenticationManager authenticationManager, UserDTOMapper userDTOMapper, JWTService jwtService) {
+        this.authenticationManager = authenticationManager;
+        this.userDTOMapper = userDTOMapper;
+        this.jwtService = jwtService;
+    }
 
-    public AuthResponse login(AuthRequest authRequest) {
-
+    public AuthResponse login(AuthRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authRequest.username,
-                        authRequest.password
+                        request.username(),
+                        request.password()
                 )
         );
-        User principal = (User) authentication.getPrincipal();
 
+        User principal = (User) authentication.getPrincipal();
+        UserDTO userDTO = userDTOMapper.apply(principal);
+        String token = jwtService.issueToken(userDTO.username(), userDTO.roles());
+        return new AuthResponse(token, userDTO);
     }
 }
 

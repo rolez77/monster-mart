@@ -88,6 +88,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-s3</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
