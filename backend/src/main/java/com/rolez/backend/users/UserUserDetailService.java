@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserUserDetailService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserDao userDao;
 
-    public UserUserDetailService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserUserDetailService(@Qualifier("jpa") UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return userDao.selectUserByEmail(username)
                 .orElseThrow(()-> new UsernameNotFoundException(
                         "Username " + username + " not found"
                 ));

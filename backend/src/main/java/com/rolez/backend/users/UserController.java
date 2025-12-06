@@ -2,8 +2,10 @@ package com.rolez.backend.users;
 
 import com.rolez.backend.jwt.JWTService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class UserController {
     public List<UserDTO> getUsers() {return userService.getAllUsers();}
 
     @GetMapping("{userId}")
-    public UserDTO getUser(@PathVariable("userId") Long userId) {
+    public UserDTO getUser(@PathVariable("userId") Integer userId) {
         return userService.getUser(userId);
     }
 
@@ -35,4 +37,37 @@ public class UserController {
                 .header(HttpHeaders.AUTHORIZATION,  jwtToken)
                 .build();
     }
+
+    @DeleteMapping("{userId")
+    public void deleteUser(@PathVariable("userId") Integer userId) {
+        userService.deleteUserById(userId);
+    }
+
+    @PutMapping("{userId")
+    public void updateUser(
+            @PathVariable("userId") Integer userId,
+            @RequestBody UserRegistrationRequest request){
+        userService.updateUser(userId, request);
+    }
+
+    @PostMapping(
+            value = "{customerId}/profile-image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public void uploadUserProfileImage(
+            @PathVariable("userId") Integer userId,
+            @RequestParam("file") MultipartFile file
+    ){
+        userService.uploadUserImage(userId, file);
+    }
+
+    @GetMapping(
+            value = "{customerId}/profile-image",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+
+    public byte[] getUserProfileImage(@PathVariable("userId") Integer userId) {
+        return userService.getUserProfileImage(userId);
+    }
+
 }
