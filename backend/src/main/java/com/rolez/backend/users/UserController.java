@@ -38,12 +38,12 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("{userId")
+    @DeleteMapping("{userId}")
     public void deleteUser(@PathVariable("userId") Integer userId) {
         userService.deleteUserById(userId);
     }
 
-    @PutMapping("{userId")
+    @PutMapping("{userId}")
     public void updateUser(
             @PathVariable("userId") Integer userId,
             @RequestBody UserRegistrationRequest request){
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping(
-            value = "{customerId}/profile-image",
+            value = "{userId}/profile-image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public void uploadUserProfileImage(

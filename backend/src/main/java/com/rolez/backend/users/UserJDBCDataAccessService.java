@@ -20,7 +20,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public List<User> selectAll() {
         var sql = """
-                SELECT id, name, email, password, profilePictureUrl
+                SELECT id, name, username, email, password, profilePictureUrl
                 FROM users
                 LIMIT 1000
                 """;
@@ -30,7 +30,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public Optional<User> selectUserById(Integer id) {
         var sql = """
-                SELECT id, name, email, password, profilePictureUrl
+                SELECT id, name, username, email, password, profilePictureUrl
                 FROM users
                 WHERE id = ?
                 """;
@@ -43,12 +43,13 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public void insertUser(User user) {
         var sql = """
-                INSERT INTO users(name, email, password)
-                VALUES (?, ?, ?)
+                INSERT INTO users(name, username, email, password)
+                VALUES (?, ?, ?, ?)
                   """;
         int result = jdbcTemplate.update(
                 sql,
                 user.getName(),
+                user.getUsername(),
                 user.getEmail(),
                 user.getPassword()
         );
@@ -57,31 +58,74 @@ public class UserJDBCDataAccessService implements UserDao {
 
     @Override
     public boolean existsUserByEmail(String email) {
-        return false;
+        var sql = """
+                SELECT COUNT(id)
+                FROM users
+                WHERE email = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
     }
 
     @Override
     public boolean existsUserById(Integer id) {
-        return false;
+        var sql = """
+                SELECT COUNT(id)
+                FROM users
+                WHERE id = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
     }
 
     @Override
     public void deleteUserById(Integer id) {
-
+        var sql = """
+                DELETE
+                FROM users
+                WHERE id = ?
+                """;
+        int res =  jdbcTemplate.update(sql, id);
+        System.out.println("deleteUser result " + res);
     }
 
     @Override
     public void updateUser(User update) {
-
+        if(update.getName() != null) {
+            String sql = "UPDATE user SET name = ? WHERE id = ?";
+            int res = jdbcTemplate.update(sql, update.getName(), update.getId());
+            System.out.println("updateUser result " + res);
+        }
+        if(update.getUsername() != null) {
+            String sql = "UPDATE users SET username = ? WHERE id = ?";
+            int res = jdbcTemplate.update(sql, update.getUsername(), update.getId());
+            System.out.println("updateUser result " + res);
+        }
+        if(update.getEmail() != null) {
+            String sql = "UPDATE users SET email = ? WHERE id = ?";
+            int res = jdbcTemplate.update(sql, update.getEmail(), update.getId());
+            System.out.println("updateUser result " + res);
+        }
     }
 
     @Override
     public Optional<User> selectUserByEmail(String email) {
-        return Optional.empty();
+        var sql = """
+                SELECT id, name, username, email, password, profilePictureUrl
+                FROM users
+                WHERE email = ?
+                """;
+        return jdbcTemplate.query(sql, userRowMapper, email).stream().findFirst();
     }
 
     @Override
     public void updateUserProfileImageId(String profileImageUrl, Integer id) {
 
+        var sql = """
+                UPDATE users
+                SET profilePictureUrl = ?
+                WHERE id = ?
+                """;
+        jdbcTemplate.update(sql, profileImageUrl, id);
     }
 }

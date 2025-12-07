@@ -32,8 +32,10 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain chain)
         throws ServletException, IOException{
         String header = request.getHeader("Authorization");
+
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
+            return;
         }
 
         String jwt =  header.substring(7);

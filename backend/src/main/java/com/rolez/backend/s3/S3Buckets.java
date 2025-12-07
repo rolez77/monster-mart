@@ -9,7 +9,7 @@ public class S3Buckets {
 
     private String user;
 
-    private String getUser(){ return user;}
+    public String getUser(){ return user;}
 
     public void setUser(String user) {
         this.user = user;
