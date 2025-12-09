@@ -13,12 +13,12 @@ import lombok.Data;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     // Example, Charizard, MegaEx, 676767.41, *image*, mint
     private String name;
     private String set;
     private Double price;
-    private String imageUrl;
+    private String imageId;
     private String condition; //perfect near perfect, rugged
 
     @ManyToOne
@@ -26,4 +26,5 @@ public class Card {
     @JsonIgnore
     private User user;
 
+    public Card(){}
 }

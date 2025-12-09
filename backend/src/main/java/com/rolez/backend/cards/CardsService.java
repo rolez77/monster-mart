@@ -2,6 +2,9 @@ package com.rolez.backend.cards;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,11 +32,15 @@ public class CardsService
                 .collect(Collectors.toList());
     }
 
-    public boolean existsById(Long cardId) {
+    public boolean existsById(Integer cardId) {
         return cardRepository.existsById(cardId);
     }
 
-    public void deleteCard(Long id) {
-        cardRepository.deleteById(id);
+    public void deleteCard(Integer cardId) {
+        cardRepository.deleteById(cardId);
+    }
+
+
+    public void uploadCardImage(Integer cardId, MultipartFile file) {
     }
 }

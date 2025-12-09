@@ -3,6 +3,7 @@ package com.rolez.backend.cards;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,13 +34,20 @@ public class CardController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCardById(@RequestParam Long id) {
+    public void deleteCardById(@RequestParam Integer id) {
         if(cardsService.existsById(id)){
             cardsService.deleteCard(id);
         }else{
             System.console().printf("Card with id: %s does not exist", id);
         }
 
+    }
+
+    public void uploadImage(
+            @PathVariable("cardId") Integer cardId,
+            @RequestPart("file") MultipartFile file
+    ){
+        cardsService.uploadCardImage(cardId, file);
     }
 
 }
