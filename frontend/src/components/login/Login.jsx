@@ -67,7 +67,7 @@ const LoginForm = () => {
                             label={"Email"}
                             name = {"username"}
                             type = {"email"}
-                            placeholder = {"johnapple123@email.com"}
+                            placeholder = {"Type your email"}
                         />
                         <TextInput
                             label={"Password"}
