@@ -55,7 +55,7 @@ const LoginForm = () => {
                 setSubmitting(true);
                 login(values).then(result =>{
                     navigate("/home");
-                    console.log(logged);
+                    console.log("logged");
                 }).catch(err =>{
                     console.log(err);
                 }).finally(() => setSubmitting(false));
@@ -69,7 +69,7 @@ const LoginForm = () => {
                             type = {"email"}
                             placeholder = {"johnapple123@email.com"}
                         />
-                        <MyTextInput
+                        <TextInput
                             label={"Password"}
                             name={"password"}
                             type={"password"}
@@ -98,7 +98,22 @@ const Login = () => {
     })
 
     return(
-        <h1>IHDIOHSIOHIFOD</h1>
+        <div>
+        <Stack  minH={'100vh'} direction={{base: 'column', md: 'row'}}>
+            <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
+                <Stack spacing={4} w={'full'} maxW={'md'}>
+                    <Image
+                    />
+                    <Heading> Welcome to MonsterMart, Coming Soon</Heading>
+                    <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
+                    <LoginForm/>
+                    <Link color={"blue.500"} href={"/signup"}>
+                        Dont have an account? Signup now.
+                    </Link>
+                </Stack>
+            </Flex>
+        </Stack>
+        </div>
     )
 }
 export default Login;

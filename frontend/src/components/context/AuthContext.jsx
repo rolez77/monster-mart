@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
                 const decodedToken = jwtDecode(jwtToken);
 
                 setUser({
-                    username: decodedToken.username,
+                    username: decodedToken.sub,
                     role: decodedToken.scopes
                 });
                 resolve(res);
