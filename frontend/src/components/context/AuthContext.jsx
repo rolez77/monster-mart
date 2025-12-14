@@ -10,13 +10,24 @@ const AuthProvider = ({ children }) => {
 
     const setUserFromToken = () => {
         let token = localStorage.getItem("token");
-        if (token) {
-            token = jwtDecode(token);
-            setUser({
-                username: token.sub,
-                role: token.scopes
-            });
+
+        if(!token){
+            console.log("Token not found");
         }
+        try{
+            if (token) {
+                token = jwtDecode(token);
+                setUser({
+                    username: token.sub,
+                    role: token.scopes
+                });
+            }
+        }catch(e){
+            console.log("Invalid token detected");
+            localStorage.removeItem("token");
+            setUser(null);
+        }
+
     }
     useEffect(() => {
         setUserFromToken();
@@ -27,6 +38,11 @@ const AuthProvider = ({ children }) => {
         return new Promise((resolve, reject) => {
             performLogin(usernameAndPassword).then(res => {
                 const jwtToken = res.headers["authorization"];
+                console.log("FULL LOGIN RESPONSE:", res);
+                if (!jwtToken) {
+                    reject("Token not found in response headers! Check Backend CORS.");
+                    return;
+                }
                 localStorage.setItem("token", jwtToken);
 
                 const decodedToken = jwtDecode(jwtToken);
@@ -42,7 +58,7 @@ const AuthProvider = ({ children }) => {
         })
     }
 
-    const logOut = () => {
+    const logout = () => {
         localStorage.removeItem("token");
         setUser(null);
     }
@@ -55,7 +71,7 @@ const AuthProvider = ({ children }) => {
 
         const {exp: expiration} = jwtDecode(token);
         if (Date.now() > expiration * 1000) {
-            logOut();
+            logout();
             return false;
         }
         return true;
@@ -64,7 +80,7 @@ const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user,
             login,
-            logOut,
+            logout,
             isUserAuthenticated,
             setUserFromToken
         }}>

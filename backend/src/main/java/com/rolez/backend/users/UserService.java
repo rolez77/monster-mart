@@ -62,8 +62,8 @@ public class UserService {
         }
 
         User user = new User(
-                request.name(),
                 request.username(),
+                request.name(),
                 request.email(),
                 passwordEncoder.encode(request.password())
         );

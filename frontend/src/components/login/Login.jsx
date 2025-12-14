@@ -41,7 +41,7 @@ const LoginForm = () => {
             validateOnMount={true}
             validationSchema={
                 Yup.object({
-                    email: Yup.string()
+                    username: Yup.string()
                         .email("Enter a valid email address")
                         .required("Email is required"),
                     password: Yup.string()
@@ -78,7 +78,7 @@ const LoginForm = () => {
 
                         <Button
                             type={"submit"}
-                            disabled={!isValid || isSubmitting}>
+                            isDisabled={!isValid || isSubmitting}>
                             Login
                         </Button>
                     </Stack>

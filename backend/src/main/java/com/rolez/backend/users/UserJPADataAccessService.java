@@ -57,12 +57,12 @@ public class UserJPADataAccessService implements UserDao  {
 
     @Override
     public Optional<User> selectUserByEmail(String email) {
-        return userRepository.findByUsername(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public void updateUserProfileImageId(String profileImageUrl, Integer id) {
         userRepository.updateProfileImageId(profileImageUrl, id);
-
     }
+
 }

@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityFilterChainConfig {
 
     private final AuthenticationProvider authenticationProvider;
-    private JWTAuthFilter jwtAuthFilter;
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private  final JWTAuthFilter jwtAuthFilter;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
 
     public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider,
