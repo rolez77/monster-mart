@@ -1,6 +1,7 @@
+import "./login.css"
 import {
     Alert,
-    AlertIcon,
+    AlertIcon, border,
     Box,
     Button,
     Flex,
@@ -17,7 +18,6 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Formik, Form, useField} from "formik";
 import * as Yup from 'yup';
-
 const TextInput = ({label, ...props}) =>{
     const[field,meta] = useField(props);
     return(
@@ -36,8 +36,11 @@ const TextInput = ({label, ...props}) =>{
 const LoginForm = () => {
     const{login} = useAuth();
     const navigate = useNavigate();
+
     return(
+        <>
         <Formik
+
             validateOnMount={true}
             validationSchema={
                 Yup.object({
@@ -74,9 +77,11 @@ const LoginForm = () => {
                             name={"password"}
                             type={"password"}
                             placeholder={"Type your password"}
+
                         />
 
                         <Button
+                            className="cardimg"
                             type={"submit"}
                             isDisabled={!isValid || isSubmitting}>
                             Login
@@ -85,6 +90,7 @@ const LoginForm = () => {
                 </Form>
             )}
         </Formik>
+        </>
     )
 }
 const Login = () => {
@@ -98,22 +104,40 @@ const Login = () => {
     })
 
     return(
-        <div>
-        <Stack  minH={'100vh'} direction={{base: 'column', md: 'row'}}>
+        <Stack  minH={'100vh'} w={'100%'} direction={{base: 'column', md: 'row'}}
+                backgroundImage="url('/login/bg5.webp')"
+                backgroundSize={'cover'}
+                backgroundRepeat={'no-repeat'}
+                backgroundPosition={'center'}
+                spacing={0}
+
+        >
+
+            <Flex flex={1}>
+                <Image
+                    className="cardimg"
+                    alt="Card"
+                    src="/login/cards.png"
+                    objectFit="cover"
+                    w ={"100%"}
+                    h={"100vh"}
+                />
+            </Flex>
+
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
-                    <Image
-                    />
-                    <Heading> Welcome to MonsterMart, Coming Soon</Heading>
+                    <Heading fontSize={'50px'} > Welcome to MonsterMart, Coming Soon</Heading>
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
                     <LoginForm/>
-                    <Link color={"blue.500"} href={"/signup"}>
+                    <Link
+                        className='cardimg'
+                        fontSize={'2xl'} color={"blue.500"} href={"/signup"}>
                         Dont have an account? Signup now.
                     </Link>
                 </Stack>
             </Flex>
         </Stack>
-        </div>
+
     )
 }
 export default Login;

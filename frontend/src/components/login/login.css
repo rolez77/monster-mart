@@ -1,0 +1,23 @@
+
+
+@keyframes logo-spin {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.spinning-ball{
+    animation: logo-spin 3s infinite linear;
+}
+
+.cardimg{
+    transition: 0.2s ease;
+}
+.cardimg:hover{
+    transform: scale(1.1);
+}
+
+
