@@ -131,7 +131,8 @@ const Login = () => {
                     <LoginForm/>
                     <Link
                         className='cardimg'
-                        fontSize={'2xl'} color={"blue.500"} href={"/signup"}>
+                        fontSize={'2xl'} color={"blue.500"} href={"/signup"}
+                    >
                         Dont have an account? Signup now.
                     </Link>
                 </Stack>

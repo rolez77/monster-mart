@@ -23,6 +23,14 @@ export const getCards = async () =>{
     }
 }
 
+export const saveCards = async () =>{
+    try{
+        return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`)
+    }catch(error){
+        throw error;
+    }
+}
+
 export const saveUser = async(user) =>{
     try{
         return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users`, user);

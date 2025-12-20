@@ -13,4 +13,5 @@ public interface UserDao {
     void updateUser(User update);
     Optional<User> selectUserByEmail(String email);
     void updateUserProfileImageId(String profileImageUrl, Integer id);
+
 }

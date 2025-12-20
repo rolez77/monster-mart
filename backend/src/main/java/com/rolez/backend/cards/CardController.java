@@ -2,13 +2,14 @@ package com.rolez.backend.cards;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/cards")
+@RequestMapping("api/v1/cards")
 public class CardController {
 
 
@@ -29,8 +30,9 @@ public class CardController {
     }
 
     @PostMapping
-    public Card addCard(@RequestBody Card card) {
-        return cardsService.addCard(card);
+    public void addCard(@RequestBody CardRegistrationRequest card, Authentication authentication) {
+        String email = authentication.getName();
+        cardsService.addCard(card, email);
     }
 
     @DeleteMapping("/{id}")

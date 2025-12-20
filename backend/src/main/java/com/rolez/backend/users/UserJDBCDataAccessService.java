@@ -92,7 +92,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public void updateUser(User update) {
         if(update.getName() != null) {
-            String sql = "UPDATE user SET name = ? WHERE id = ?";
+            String sql = "UPDATE users SET name = ? WHERE id = ?";
             int res = jdbcTemplate.update(sql, update.getName(), update.getId());
             System.out.println("updateUser result " + res);
         }
