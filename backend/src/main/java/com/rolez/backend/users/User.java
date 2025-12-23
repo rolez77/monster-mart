@@ -38,6 +38,15 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Card> cards;
 
+    @Override
+    public String getUsername(){
+        return email;
+    }
+
+    public String getRealUserName(){
+        return username;
+    }
+
     public User(String username, Integer id, String name, String email,  String password) {
         this.name = name;
         this.email = email;

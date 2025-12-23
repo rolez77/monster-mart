@@ -31,6 +31,7 @@ public class CardController {
 
     @PostMapping
     public void addCard(@RequestBody CardRegistrationRequest card, Authentication authentication) {
+        System.out.println("1. API HIT: Received request for " + card.name());
         String email = authentication.getName();
         cardsService.addCard(card, email);
     }

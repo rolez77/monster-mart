@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("jdbc")
+@Repository("cardJdbc")
 public class CardJDBCDataAccessService implements CardDao {
     private final JdbcTemplate jdbcTemplate;
     private final CardRowMapper cardRowMapper;
@@ -20,7 +20,7 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public List<Card> selectAll() {
         var sql = """
-                SELECT card_id, card_name, card_set, card_condition, card_price, user_id
+                SELECT id, name, "set", condition, price, user_id
                 FROM cards
                 """;
         return jdbcTemplate.query(sql, cardRowMapper);
@@ -29,7 +29,7 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public Optional<Card> selectCardById(Integer id) {
         var sql = """
-                SELECT card_id, card_name, card_set, card_condition, card_price, user_id
+                SELECT id, name, "set", condition, price, user_id
                 FROM cards
                 WHERE card_id = ?
                 """;
@@ -41,10 +41,16 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public void addCard(Card card) {
         var sql = """
-                INSERT INTO CARDS(card_id, card_name, card_set, card_condition, card_price)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO CARDS(name, "set", condition, price, image_id, user_id)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
-        int result = jdbcTemplate.update(sql, card.getId(), card.getName(), card.getSet(), card.getCondition(), card.getPrice());
+        int result = jdbcTemplate.update(sql,
+                card.getName(),
+                card.getSet(),
+                card.getCondition(),
+                card.getPrice()
+                ,card.getImageId(),
+                card.getUser().getId());
         System.out.println("Insert result: " + result);
     }
 
@@ -53,7 +59,7 @@ public class CardJDBCDataAccessService implements CardDao {
         var sql = """
                 SELECT COUNT(id)
                 FROM cards
-                WHERE card_id = ?
+                WHERE id = ?
                 """;
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count != null && count > 0;
@@ -64,7 +70,7 @@ public class CardJDBCDataAccessService implements CardDao {
         var sql = """
                 DELETE
                 FROM cards
-                WHERE card_id = ?
+                WHERE id = ?
                 """;
         int result = jdbcTemplate.update(sql, id);
         System.out.println("Delete result: " + result);
@@ -73,22 +79,22 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public void updateCard(Card update) {
         if(update.getName() != null) {
-            String sql = "UPDATE cards SET card_name = ? WHERE card_id = ?";
+            String sql = "UPDATE cards SET name = ? WHERE id = ?";
             int res =  jdbcTemplate.update(sql, update.getName(), update.getId());
             System.out.println("update result " + res);
         }
         if(update.getSet() != null) {
-            String sql = "UPDATE cards SET card_set = ? WHERE card_id = ?";
+            String sql = "UPDATE cards SET set = ? WHERE id = ?";
             int res =  jdbcTemplate.update(sql, update.getSet(), update.getId());
             System.out.println("update result " + res);
         }
         if(update.getCondition() != null) {
-            String sql = "UPDATE cards SET card_condition = ? WHERE card_id = ?";
+            String sql = "UPDATE cards SET condition = ? WHERE id = ?";
             int res =  jdbcTemplate.update(sql, update.getCondition(), update.getId());
             System.out.println("update result " + res);
         }
         if(update.getPrice() != null) {
-            String sql = "UPDATE cards SET card_price = ? WHERE card_id = ?";
+            String sql = "UPDATE cards SET price = ? WHERE id = ?";
             int res =  jdbcTemplate.update(sql, update.getPrice(), update.getId());
             System.out.println("update result " + res);
         }

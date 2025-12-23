@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("jpa")
+@Repository("cardJpa")
 public class CardJPADataAccessService implements CardDao {
     private CardRepository cardRepository;
     public CardJPADataAccessService(CardRepository cardRepository) {

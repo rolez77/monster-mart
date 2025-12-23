@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("list")
+@Repository("cardList")
 public class CardListDataAccessService implements CardDao{
 
     private static final List<Card> cards = List.of();

@@ -17,15 +17,15 @@ export const getUsers = async () =>{
 
 export const getCards = async () =>{
     try{
-        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`)
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`, getAuthConfig());
     }catch(error){
         throw error;
     }
 }
 
-export const saveCards = async () =>{
+export const saveCards = async (card) =>{
     try{
-        return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`)
+        return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`,card, getAuthConfig());
     }catch(error){
         throw error;
     }

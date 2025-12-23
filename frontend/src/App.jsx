@@ -6,6 +6,7 @@ import Signup from "./components/signup/Signup.jsx";
 import Dashboard from "./components/homepage/Dashboard.jsx";
 import UserProfilePage from "./components/profile/UserProfilePage.jsx";
 import Login from "./components/login/Login.jsx";
+import AddCard from "./components/Cards/AddCard.jsx";
 
 function App() {
     return(
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/home" element={<Dashboard />} />
                 <Route path="/profile" element={<UserProfilePage />} />
+                <Route path = "/addCard" element={<AddCard/>} />
             </Routes>
         </>
     )

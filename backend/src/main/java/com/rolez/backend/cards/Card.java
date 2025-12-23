@@ -26,7 +26,7 @@ public class Card {
     @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false)
+    @Column
     private String imageId;
 
     @Column(nullable = false)

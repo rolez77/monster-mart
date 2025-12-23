@@ -18,22 +18,22 @@ import java.util.stream.Collectors;
 public class CardsService
 {
     private final UserDao userDao;
-    private final CardRepository cardRepository;
+    private final CardDao cardDao;
     @Autowired
-    public CardsService(@Qualifier("jdbc")UserDao userDao, CardRepository cardRepository) {
+    public CardsService(@Qualifier("jdbc")UserDao userDao, @Qualifier("cardJdbc")CardDao cardDao) {
         this.userDao = userDao;
-        this.cardRepository = cardRepository;
+        this.cardDao = cardDao;
     }
 
     public List<Card> getCards() {
-        return cardRepository.findAll();
+        return cardDao.selectAll();
     }
 
     public void addCard(CardRegistrationRequest request, String email) {
-
+        System.out.println("2. SERVICE HIT: Finding user " + email);
         Optional<User> user = Optional.ofNullable(userDao.selectUserByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found")));
-
+        System.out.println("3. USER FOUND: ID " );
         Card card = new Card(
                 request.name(),
                 request.set(),
@@ -43,22 +43,23 @@ public class CardsService
                 user
 
         );
-        cardRepository.save(card);
+        System.out.println("4. CALLING DAO...");
+        cardDao.addCard(card);
 
     }
 
     public List<Card> getCardByName(String cardName) {
-        return cardRepository.findAll().stream()
+        return cardDao.selectAll().stream()
                 .filter(cards -> cards.getName().toLowerCase().contains(cardName.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     public boolean existsById(Integer cardId) {
-        return cardRepository.existsById(cardId);
+        return cardDao.existsCardById(cardId);
     }
 
     public void deleteCard(Integer cardId) {
-        cardRepository.deleteById(cardId);
+        cardDao.deleteCardById(cardId);
     }
 
 

@@ -20,7 +20,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public List<User> selectAll() {
         var sql = """
-                SELECT id, name, username, email, password, profilePictureUrl
+                SELECT id, name, username, email, password, profile_picture_url
                 FROM users
                 LIMIT 1000
                 """;
@@ -30,7 +30,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public Optional<User> selectUserById(Integer id) {
         var sql = """
-                SELECT id, name, username, email, password, profilePictureUrl
+                SELECT id, name, username, email, password, profile_picture_url
                 FROM users
                 WHERE id = ?
                 """;
@@ -111,7 +111,7 @@ public class UserJDBCDataAccessService implements UserDao {
     @Override
     public Optional<User> selectUserByEmail(String email) {
         var sql = """
-                SELECT id, name, username, email, password, profilePictureUrl
+                SELECT id, name, username, email, password, profile_picture_url
                 FROM users
                 WHERE email = ?
                 """;
@@ -123,7 +123,7 @@ public class UserJDBCDataAccessService implements UserDao {
 
         var sql = """
                 UPDATE users
-                SET profilePictureUrl = ?
+                SET profile_picture_url = ?
                 WHERE id = ?
                 """;
         jdbcTemplate.update(sql, profileImageUrl, id);
