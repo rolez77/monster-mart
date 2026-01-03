@@ -3,7 +3,8 @@ import {useAuth} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 import "./dashboard.css"
 import {useEffect, useState} from "react";
-import {getCards} from "../../services/client.js";
+import {getCards, getUsers} from "../../services/client.js";
+import{jwtDecode}from "jwt-decode";
 
 
 const Dashboard = () => {
@@ -13,12 +14,50 @@ const Dashboard = () => {
     const [cards, setCards] = useState([]);
     const[loading, setLoading] = useState(false);
     const[error, setError] = useState(null);
+    const[user, setUser] = useState(null);
+
 
     useEffect(() => {
         fetchCards();
     },[])
 
+    useEffect(() => {
+        fetchUserInfo();
+    },[])
+
+    const fetchUserInfo = () =>{
+
+        const token = localStorage.getItem("token");
+        if(!token){
+            console.log("token not found");
+            return;
+        }
+
+        const decoded = jwtDecode(token);
+        const myEmail = decoded.sub;
+
+
+        getUsers().then(res=>{
+            console.log("LOOK HERE")
+            console.log(myEmail);
+            console.log(res.data);
+            const myUser = res.data.find(u=> u.username === myEmail);
+            setUser(myUser);
+
+            if(!myUser) {
+                console.log("no user found");
+            }else{
+                console.log("User found");
+            }
+            setUser(myUser);
+        }).catch(err=>{
+            console.log(err);
+        });
+
+    }
+
     const fetchCards =  () => {
+
         setLoading(true);
         getCards()
             .then((res) => {
@@ -31,6 +70,7 @@ const Dashboard = () => {
             .finally(() => {
                 setLoading(false);
             })
+
     }
 
     const handleLogout = async () => {
@@ -70,14 +110,16 @@ const Dashboard = () => {
             <h1>
                 MonsterMart
             </h1>
+
+            <Heading>
+
+                Hello, {user ? user.name: "dih"}
+            </Heading>
             <HStack spacing={2}>
                 <Button
                     onClick={goToProfilePage}
                     colorScheme="blue">
                     Profile
-                </Button>
-                <Button className={'buttons'} onClick={handleLogout} colorScheme="blue">
-                    Logout
                 </Button>
                 <Button
                     className={'buttons'}
@@ -85,6 +127,10 @@ const Dashboard = () => {
                     onClick={goToAddCardPage}>
                     Post card
                 </Button>
+                <Button className={'buttons'} onClick={handleLogout} colorScheme="blue">
+                    Logout
+                </Button>
+
             </HStack>
         </Flex>
         {/*Main*/}

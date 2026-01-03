@@ -43,9 +43,10 @@ public class User implements UserDetails {
         return email;
     }
 
-    public String getRealUserName(){
+    public String getHandle(){
         return username;
     }
+
 
     public User(String username, Integer id, String name, String email,  String password) {
         this.name = name;
