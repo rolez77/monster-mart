@@ -5,72 +5,75 @@ import "./dashboard.css"
 import {useEffect, useState} from "react";
 import {getCards, getUsers} from "../../services/client.js";
 import{jwtDecode}from "jwt-decode";
+import {useUserProfile} from "../../hooks/useUserProfile.js";
+import {useCardInfo} from "../../hooks/useCardInfo.js";
 
 
 const Dashboard = () => {
 
     const {logout} = useAuth()
     const navigate = useNavigate();
-    const [cards, setCards] = useState([]);
-    const[loading, setLoading] = useState(false);
-    const[error, setError] = useState(null);
-    const[user, setUser] = useState(null);
+    // const [cards, setCards] = useState([]);
+    // const[loading, setLoading] = useState(false);
+    // const[error, setError] = useState(null);
+    // const[user, setUser] = useState(null);
 
-
-    useEffect(() => {
-        fetchCards();
-    },[])
-
-    useEffect(() => {
-        fetchUserInfo();
-    },[])
-
-    const fetchUserInfo = () =>{
-
-        const token = localStorage.getItem("token");
-        if(!token){
-            console.log("token not found");
-            return;
-        }
-
-        const decoded = jwtDecode(token);
-        const myEmail = decoded.sub;
-
-
-        getUsers().then(res=>{
-            console.log(myEmail);
-            console.log(res.data);
-            const myUser = res.data.find(u=> u.username === myEmail);
-            setUser(myUser);
-
-            if(!myUser) {
-                console.log("no user found");
-            }else{
-                console.log("User found");
-            }
-            setUser(myUser);
-        }).catch(err=>{
-            console.log(err);
-        });
-
-    }
-
-    const fetchCards =  () => {
-
-        setLoading(true);
-        getCards()
-            .then((res) => {
-                setCards(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-                setError("Failed to load cards.");
-            })
-            .finally(() => {
-                setLoading(false);
-            })
-
-    }
+    const {user, error, loading} = useUserProfile();
+    const {cards, error2, loading2} = useCardInfo();
+    // useEffect(() => {
+    //     fetchCards();
+    // },[])
+    //
+    // useEffect(() => {
+    //     fetchUserInfo();
+    // },[])
+    //
+    // const fetchUserInfo = () =>{
+    //
+    //     const token = localStorage.getItem("token");
+    //     if(!token){
+    //         console.log("token not found");
+    //         return;
+    //     }
+    //
+    //     const decoded = jwtDecode(token);
+    //     const myEmail = decoded.sub;
+    //
+    //
+    //     getUsers().then(res=>{
+    //         console.log(myEmail);
+    //         console.log(res.data);
+    //         const myUser = res.data.find(u=> u.username === myEmail);
+    //         setUser(myUser);
+    //
+    //         if(!myUser) {
+    //             console.log("no user found");
+    //         }else{
+    //             console.log("User found");
+    //         }
+    //         setUser(myUser);
+    //     }).catch(err=>{
+    //         console.log(err);
+    //     });
+    //
+    // }
+    //
+    // const fetchCards =  () => {
+    //
+    //     setLoading(true);
+    //     getCards()
+    //         .then((res) => {
+    //             setCards(res.data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setError("Failed to load cards.");
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         })
+    //
+    // }
 
     const handleLogout = async () => {
         try{
