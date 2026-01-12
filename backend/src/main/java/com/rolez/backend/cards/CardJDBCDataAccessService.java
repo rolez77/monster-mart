@@ -20,7 +20,7 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public List<Card> selectAll() {
         var sql = """
-                SELECT id, name, "set", condition, price, user_id
+                SELECT id, name, "set", condition, price,image_id, user_id
                 FROM cards
                 """;
         return jdbcTemplate.query(sql, cardRowMapper);
@@ -29,9 +29,9 @@ public class CardJDBCDataAccessService implements CardDao {
     @Override
     public Optional<Card> selectCardById(Integer id) {
         var sql = """
-                SELECT id, name, "set", condition, price, user_id
+                SELECT id, name, "set", condition, price,image_id, user_id
                 FROM cards
-                WHERE card_id = ?
+                WHERE id = ?
                 """;
         return jdbcTemplate.query(
                 sql, cardRowMapper, id)

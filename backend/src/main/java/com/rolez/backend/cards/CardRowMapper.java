@@ -19,7 +19,7 @@ public class CardRowMapper implements RowMapper<Card> {
         card.setSet(rs.getString("set"));
         card.setCondition(rs.getString("condition"));
         card.setPrice(rs.getDouble("price"));
-
+        card.setImageId(rs.getString("image_id"));
         int userId = rs.getInt("user_id");
 
         if(!rs.wasNull()) {

@@ -25,7 +25,13 @@ export const getCards = async () =>{
 
 export const saveCards = async (card) =>{
     try{
-        return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`,card, getAuthConfig());
+        return await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/cards`,card,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+            );
     }catch(error){
         throw error;
     }

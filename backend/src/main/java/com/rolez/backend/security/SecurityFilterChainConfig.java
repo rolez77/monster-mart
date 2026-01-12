@@ -46,6 +46,10 @@ public class SecurityFilterChainConfig {
                                 "/api/v1/users/*/profile-image",
                                 "/actuator/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/v1/cards/*/image"
+                        ).permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

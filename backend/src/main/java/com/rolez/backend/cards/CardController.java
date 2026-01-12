@@ -2,6 +2,7 @@ package com.rolez.backend.cards;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,11 +30,11 @@ public class CardController {
         }
     }
 
-    @PostMapping
-    public void addCard(@RequestBody CardRegistrationRequest card, Authentication authentication) {
-        System.out.println("1. API HIT: Received request for " + card.name());
-        String email = authentication.getName();
-        cardsService.addCard(card, email);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void addCard(@RequestPart("card") CardRegistrationRequest card,
+                        @RequestPart("file")MultipartFile file) {
+
+        cardsService.addCard(card, file);
     }
 
     @DeleteMapping("/{id}")
@@ -51,6 +52,12 @@ public class CardController {
             @RequestPart("file") MultipartFile file
     ){
         cardsService.uploadCardImage(cardId, file);
+    }
+
+    @GetMapping(value = "/{cardId}/image",
+            produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getCardImage(@PathVariable("cardId") Integer cardId){
+        return cardsService.getCardImage(cardId);
     }
 
 }

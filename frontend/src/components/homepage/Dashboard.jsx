@@ -1,4 +1,4 @@
-import {Badge, Box, Button, Flex, Heading, HStack, SimpleGrid, Spinner, VStack, Text} from "@chakra-ui/react";
+import {Badge, Box, Button, Flex, Heading, HStack, SimpleGrid, Spinner, VStack, Text, Image} from "@chakra-ui/react";
 import {useAuth} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 import "./dashboard.css"
@@ -38,7 +38,6 @@ const Dashboard = () => {
 
 
         getUsers().then(res=>{
-            console.log("LOOK HERE")
             console.log(myEmail);
             console.log(res.data);
             const myUser = res.data.find(u=> u.username === myEmail);
@@ -91,6 +90,8 @@ const Dashboard = () => {
         navigate("/addCard");
     }
 
+    const cardImgId = (cardId) =>
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/cards/${cardId}/image`;
 
     return(
         <>
@@ -165,7 +166,18 @@ const Dashboard = () => {
                             _hover={{ shadow: 'xl', transform: 'translateY(-2px)', transition: '0.2s' }}
                         >
                             <Box h={'150px'} bg='gray.100' mb={4} borderRadius={'md'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                <Text> No image</Text>
+                                {card.imageId ? (
+                                    <Image
+                                        src={cardImgId(card.id)}
+                                        alt = {card.name}
+                                        objectFit={'contain'}
+                                        w={'100%'}
+                                        h={'100%'}
+
+                                    />
+                                ):(
+                                    <Text color={'gray.500'}>No image</Text>
+                                )}
                             </Box>
 
                             <VStack align = "start" spacing={2}>

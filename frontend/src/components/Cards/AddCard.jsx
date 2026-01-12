@@ -20,6 +20,7 @@ import {saveCards} from "../../services/client.js";
 
 const TextInput = ({label, ...props}) => {
     const [field, meta] = useField(props);
+
     return (
         <Box>
             <FormLabel htmlFor={props.id || props.name}>{label}</FormLabel>
@@ -67,7 +68,8 @@ const AddCard = () => {
                             name: "",
                             set: "",
                             price: "",
-                            condition: ""
+                            condition: "",
+                            file: null
                         }}
                         validationSchema={Yup.object({
                             name: Yup.string().required("Card name is required"),
@@ -77,32 +79,49 @@ const AddCard = () => {
                         })}
                         onSubmit={(values, { setSubmitting }) => {
                             setSubmitting(true);
-                            saveCards(values)
+
+                            const formData = new FormData();
+
+                            const cardData = {
+                                name: values.name,
+                                price: values.price,
+                                set: values.set,
+                                condition: values.condition
+                            };
+
+                            formData.append("card", new Blob([JSON.stringify(cardData)],
+                                { type: "application/json" }));
+
+                            if(values.file) {
+                                formData.append("file", values.file);
+                            }
+
+                            saveCards(formData)
                                 .then(() => {
                                     toast({
-                                        title: "Card Added",
+                                        title:"Cards Added",
                                         status: "success",
                                         duration: 5000,
                                         isClosable: true
                                     });
                                     navigate("/home");
                                 })
-                                .catch((err) => {
-                                    console.log(err);
+                                .catch((e) => {
+                                    console.log(e);
                                     toast({
-                                        title: "Error",
-                                        description: err.response?.data?.message || "Something went wrong",
+                                        title:"Error",
+                                        description: e.response?.data?.message || "Something went wrong",
                                         status: "error",
                                         duration: 5000,
                                         isClosable: true
                                     });
                                 })
-                            .finally(() => {
-                                setSubmitting(false);
-                            })
+                                .finally(() => {
+                                    setSubmitting(false);
+                                })
                         }}
                     >
-                        {({isValid, isSubmitting}) => (
+                        {({isValid, isSubmitting, setFieldValue}) => (
                             <Form>
                                 <Stack spacing={2}>
                                     <TextInput
@@ -130,6 +149,18 @@ const AddCard = () => {
                                         <option value="SLIGHT">Slightly Damaged</option>
                                         <option value="DAMAGE">Damaged</option>
                                     </SelectInput>
+                                    <Box>
+                                        <FormLabel>Card Image</FormLabel>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            p={1}
+                                            onChange = {(e)=>{
+                                                setFieldValue("file", e.currentTarget.files[0]);
+                                            }}
+                                        />
+                                    </Box>
+
                                     <Button
                                         loadingText="Adding card.."
                                         size="lg"
