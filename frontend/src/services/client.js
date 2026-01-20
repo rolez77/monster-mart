@@ -77,9 +77,12 @@ export const uploadUserProfilePicture = async(id, data) =>{
     try{
         return axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${id}/profile-image`,
-            data,{
-                ...getAuthConfig(),
-                'Content-Type': 'multipart/form-data',
+            data,
+            {
+                headers: {
+                    ...getAuthConfig().headers,
+                    'Content-Type': 'multipart/form-data',
+                }
             }
         );
     }catch(error){

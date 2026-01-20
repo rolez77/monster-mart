@@ -7,91 +7,18 @@ import {getCards, getUsers} from "../../services/client.js";
 import{jwtDecode}from "jwt-decode";
 import {useUserProfile} from "../../hooks/useUserProfile.js";
 import {useCardInfo} from "../../hooks/useCardInfo.js";
+import {Header as MyHeader} from "../../hooks/Header.jsx";
 
 
 const Dashboard = () => {
 
     const {logout} = useAuth()
     const navigate = useNavigate();
-    // const [cards, setCards] = useState([]);
-    // const[loading, setLoading] = useState(false);
-    // const[error, setError] = useState(null);
-    // const[user, setUser] = useState(null);
 
     const {user, error, loading} = useUserProfile();
-    const {cards, error2, loading2} = useCardInfo();
-    // useEffect(() => {
-    //     fetchCards();
-    // },[])
-    //
-    // useEffect(() => {
-    //     fetchUserInfo();
-    // },[])
-    //
-    // const fetchUserInfo = () =>{
-    //
-    //     const token = localStorage.getItem("token");
-    //     if(!token){
-    //         console.log("token not found");
-    //         return;
-    //     }
-    //
-    //     const decoded = jwtDecode(token);
-    //     const myEmail = decoded.sub;
-    //
-    //
-    //     getUsers().then(res=>{
-    //         console.log(myEmail);
-    //         console.log(res.data);
-    //         const myUser = res.data.find(u=> u.username === myEmail);
-    //         setUser(myUser);
-    //
-    //         if(!myUser) {
-    //             console.log("no user found");
-    //         }else{
-    //             console.log("User found");
-    //         }
-    //         setUser(myUser);
-    //     }).catch(err=>{
-    //         console.log(err);
-    //     });
-    //
-    // }
-    //
-    // const fetchCards =  () => {
-    //
-    //     setLoading(true);
-    //     getCards()
-    //         .then((res) => {
-    //             setCards(res.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             setError("Failed to load cards.");
-    //         })
-    //         .finally(() => {
-    //             setLoading(false);
-    //         })
-    //
-    // }
+    const {cards, cardError, cardLoading} = useCardInfo();
 
-    const handleLogout = async () => {
-        try{
-            await logout();
-        }catch(e){
-            console.log(e);
-        }finally{
-            navigate("/");
-        }
-    }
 
-    const goToProfilePage = () =>{
-        navigate("/profile");
-    }
-
-    const goToAddCardPage = () =>{
-        navigate("/addCard");
-    }
 
     const cardImgId = (cardId) =>
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/cards/${cardId}/image`;
@@ -101,44 +28,9 @@ const Dashboard = () => {
 
         <Flex direction="column" minHeight="100vh">
             {/*Header*/}
-        <Flex as="header"
-              align="center"
-              justify="space-between"
-              padding="1.5rem"
-              bg="#213547"
-              color="white"
-              position="sticky"
-              top="0"
-              zIndex="100"
-              boxShadow="sm" >
-            <h1>
-                MonsterMart
-            </h1>
-
-            <Heading>
-
-                Hello, {user ? user.name: "dih"}
-            </Heading>
-            <HStack spacing={2}>
-                <Button
-                    onClick={goToProfilePage}
-                    colorScheme="blue">
-                    Profile
-                </Button>
-                <Button
-                    className={'buttons'}
-                    colorScheme="blue"
-                    onClick={goToAddCardPage}>
-                    Post card
-                </Button>
-                <Button className={'buttons'} onClick={handleLogout} colorScheme="blue">
-                    Logout
-                </Button>
-
-            </HStack>
-        </Flex>
+            <MyHeader />
         {/*Main*/}
-        <Box flex='1' p={8} bg={'gray.50'}>
+        <Box flex='1' p={8} bg={'blue.50'}>
 
             {loading && (
                 <Flex>
