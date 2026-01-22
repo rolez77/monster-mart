@@ -8,6 +8,7 @@ public record CardDTO(
         String condition,
         String set,
         double price,
-        User user
+        String imageId,
+        Integer userId
 ) {
 }

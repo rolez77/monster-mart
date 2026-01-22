@@ -14,7 +14,8 @@ public class CardDTOMapper implements Function<Card,CardDTO> {
                 card.getCondition(),
                 card.getSet(),
                 card.getPrice(),
-                card.getUser()
+                card.getImageId(),
+                card.getUser() != null ? card.getUser().getId() : null
         );
     }
 }

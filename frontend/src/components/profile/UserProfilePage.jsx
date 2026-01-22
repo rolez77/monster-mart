@@ -32,11 +32,13 @@ const UserProfilePage = () => {
     const cardImgId = (cardId) =>
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/cards/${cardId}/image`;
 
-    const usersCards = cards.filter(card => card.user?.id === user?.id);
+    const usersCards = cards.filter(card => String(card.userId) === String(user?.id));
 
     const userImgId = (userId) =>
         `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${userId}/image`
     if (loading) return <Spinner />;
+
+    console.log("Card Data:", cards[0]);
     return(
         <>
             <Flex direction = 'column' minHeight="100vh">
@@ -71,7 +73,7 @@ const UserProfilePage = () => {
                                 >
                                     <Image
                                         src={userImgId(user?.id)}
-                                        fallbackSrc="mmfavicon.png"
+                                        fallbackSrc="ahhh.jpg"
                                         objectFit="cover"
                                         w={'100%'}
                                         h={'100%'}

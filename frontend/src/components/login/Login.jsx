@@ -65,8 +65,9 @@ const LoginForm = () => {
             }}>
             {({isValid, isSubmitting}) => (
                 <Form>
-                    <Stack mt={15} spacing={15}>
+                    <Stack mt={15} spacing={15} color={'white'}>
                         <TextInput
+
                             label={"Email"}
                             name = {"username"}
                             type = {"email"}
@@ -105,7 +106,7 @@ const Login = () => {
 
     return(
         <Stack  minH={'100vh'} w={'100%'} direction={{base: 'column', md: 'row'}}
-                backgroundImage="url('/login/bg5.webp')"
+                backgroundImage="url('/login/bg3.png')"
                 backgroundSize={'cover'}
                 backgroundRepeat={'no-repeat'}
                 backgroundPosition={'center'}
@@ -113,22 +114,24 @@ const Login = () => {
 
         >
 
-            <Flex flex={1}>
-                <Image
-                    className="cardimg"
-                    alt="Card"
-                    src="/login/cards.png"
-                    objectFit="cover"
-                    w ={"100%"}
-                    h={"100vh"}
-                />
-            </Flex>
+            {/*<Flex flex={1}>*/}
+            {/*    <Image*/}
+            {/*        className="cardimg"*/}
+            {/*        alt="Card"*/}
+            {/*        src="/login/cards.png"*/}
+            {/*        objectFit="cover"*/}
+            {/*        w ={"100%"}*/}
+            {/*        h={"100vh"}*/}
+            {/*    />*/}
+            {/*</Flex>*/}
 
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
-                    <Heading fontSize={'50px'} > Welcome to MonsterMart, Coming Soon</Heading>
-                    <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
+                    <Heading fontSize={'50px'} color={'white'}> Welcome to MonsterMart, Coming Soon</Heading>
+                    <Heading fontSize={'2xl'} mb={15} color={'white'}>Sign in to your account</Heading>
+
                     <LoginForm/>
+
                     <Link
                         className='cardimg'
                         fontSize={'2xl'} color={"blue.500"} href={"/signup"}
