@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping(
-            value = "{customerId}/profile-image",
+            value = "{userId}/profile-image",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
 

@@ -35,10 +35,12 @@ const UserProfilePage = () => {
     const usersCards = cards.filter(card => String(card.userId) === String(user?.id));
 
     const userImgId = (userId) =>
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${userId}/image`
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/${userId}/profile-image`;
     if (loading) return <Spinner />;
 
     console.log("Card Data:", cards[0]);
+    console.log("BALLS");
+    console.log("Profile pic url:",user);
     return(
         <>
             <Flex direction = 'column' minHeight="100vh">
@@ -71,13 +73,20 @@ const UserProfilePage = () => {
                                     border="4px solid"
                                     borderColor="blue.100"
                                 >
-                                    <Image
-                                        src={userImgId(user?.id)}
-                                        fallbackSrc="ahhh.jpg"
-                                        objectFit="cover"
-                                        w={'100%'}
-                                        h={'100%'}
-                                    />
+                                    {user?.profilePictureUrl ? (
+                                        <Image
+                                            src={userImgId(user?.id)}
+                                            fallbackSrc="ahhh.jpg"
+                                            objectFit="cover"
+                                            w={'100%'}
+                                            h={'100%'}
+                                        />
+                                    ):(
+                                        <Text>
+                                            No profile picture available.
+                                        </Text>
+                                    )}
+
                                 </Box>
                             </Box>
                                 <MyDropzone userId={user?.id}/>

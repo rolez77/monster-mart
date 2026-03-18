@@ -133,7 +133,7 @@ public class UserService {
 
         byte[] profileImage = s3Service.getObject(
                 s3Buckets.getUser(),
-                "profile-images/".formatted(userId,  user.profilePictureUrl())
+                "profile-images/%s/%s".formatted(userId,  user.profilePictureUrl())
         );
         return profileImage;
     }
